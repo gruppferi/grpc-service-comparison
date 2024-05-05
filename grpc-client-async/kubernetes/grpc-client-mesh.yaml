@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: grpc-client-mesh-container
-          image: ghcr.io/gruppferi/grpc-service-comparison/grpc-client-async:0.1.0-ci-fix.1
+          image: ghcr.io/gruppferi/grpc-service-comparison/grpc-client-async:0.1.0
           ports:
             - containerPort: 5000
           env:
