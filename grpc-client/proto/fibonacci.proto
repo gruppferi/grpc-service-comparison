@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package fibonacci;
+
+service FibonacciService {
+    rpc Increment(IncrementRequest) returns (IncrementResponse);
+    rpc Fibonacci(FibonacciRequest) returns (FibonacciResponse);
+}
+
+message IncrementRequest {
+    string name = 1;
+}
+
+message IncrementResponse {
+    uint32 number = 1;
+    string server_name = 2;
+}
+
+message FibonacciRequest {
+    uint32 n = 1;
+}
+
+message FibonacciResponse {
+    string value = 1;
+    string server_name = 2;
+}

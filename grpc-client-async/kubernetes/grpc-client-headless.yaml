@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-client-headless
+  namespace: grpc-async
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-client-headless
+  template:
+    metadata:
+      labels:
+        app: grpc-client-headless
+    spec:
+      containers:
+        - name: grpc-client-headless-container
+          image: ghcr.io/grpc-service-comparison/grpc-client-async:1.0.0
+          ports:
+            - containerPort: 5000
+          env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: SERVER_NAME
+            value: "grpc-server-headless-svc.grpc-async"
+          - name: SERVER_PORT
+            value: "50051"
+          - name: GRPC_SERVER_SVC_TYPE
+            value: "headless"
+          - name: WORKERS
+            value: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-client-headless
+  namespace: grpc-async
+spec:
+  selector:
+    app: grpc-client-headless
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 30613
+      targetPort: 5000
+  type: NodePort

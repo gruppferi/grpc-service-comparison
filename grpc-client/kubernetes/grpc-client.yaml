@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-client
+  namespace: grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-client
+  template:
+    metadata:
+      labels:
+        app: grpc-client
+    spec:
+      containers:
+        - name: grpc-client-container
+          image: ghcr.io/grpc-service-comparison/grpc-client:1.0.0
+          ports:
+            - containerPort: 5000
+          env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: SERVER_NAME
+            value: "grpc-server-svc.grpc"
+          - name: SERVER_PORT
+            value: "50051"
+          - name: GRPC_SERVER_SVC_TYPE
+            value: "normal"
+          - name: WORKERS
+            value: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-client
+  namespace: grpc
+spec:
+  selector:
+    app: grpc-client
+  ports:
+    - protocol: TCP
+      port: 5000
+      nodePort: 30612
+      targetPort: 5000
+  type: NodePort
