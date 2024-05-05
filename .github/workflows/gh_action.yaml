@@ -16,6 +16,9 @@ jobs:
 
     - name: GitTools
       uses: gittools/actions/gitversion/setup@v1.1.1
+      with:
+        versionSpec: '6.x'
+        includePrerelease: false
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
