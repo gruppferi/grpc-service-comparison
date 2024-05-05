@@ -20,6 +20,10 @@ jobs:
         versionSpec: '5.x'
         includePrerelease: false
 
+    - name: Determine Version
+      id: version_step
+      uses: gittools/actions/gitversion/execute@v1.1.1
+
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
@@ -29,39 +33,39 @@ jobs:
 
     - name: Build and push grpc-client image
       run: |
-        docker build -t ghcr.io/${{ github.repository }}/grpc-client:${{ steps.gitversion.outputs.SemVer }} grpc-client/
-        docker push ghcr.io/${{ github.repository }}/grpc-client:${{ steps.gitversion.outputs.SemVer }}
+        docker build -t ghcr.io/${{ github.repository }}/grpc-client:${{ env.fullSemVer }} grpc-client/
+        docker push ghcr.io/${{ github.repository }}/grpc-client:${{ env.fullSemVer }}
 
     - name: Build and push grpc-server image
       run: |
-        docker build -t ghcr.io/${{ github.repository }}/grpc-server:${{ steps.gitversion.outputs.SemVer }} grpc-server/
-        docker push ghcr.io/${{ github.repository }}/grpc-server:${{ steps.gitversion.outputs.SemVer }}
+        docker build -t ghcr.io/${{ github.repository }}/grpc-server:${{ env.fullSemVer }} grpc-server/
+        docker push ghcr.io/${{ github.repository }}/grpc-server:${{ env.fullSemVer }}
 
     - name: Build and push grpc-client-async image
       run: |
-        docker build -t ghcr.io/${{ github.repository }}/grpc-client-async:${{ steps.gitversion.outputs.SemVer }} grpc-client-async/
-        docker push ghcr.io/${{ github.repository }}/grpc-client-async:${{ steps.gitversion.outputs.SemVer }}
+        docker build -t ghcr.io/${{ github.repository }}/grpc-client-async:${{ env.fullSemVer }} grpc-client-async/
+        docker push ghcr.io/${{ github.repository }}/grpc-client-async:${{ env.fullSemVer }}
 
     - name: Build and push grpc-server-async image
       run: |
-        docker build -t ghcr.io/${{ github.repository }}/grpc-server-async:${{ steps.gitversion.outputs.SemVer }} grpc-server-async/
-        docker push ghcr.io/${{ github.repository }}/grpc-server-async:${{ steps.gitversion.outputs.SemVer }}
+        docker build -t ghcr.io/${{ github.repository }}/grpc-server-async:${{ env.fullSemVer }} grpc-server-async/
+        docker push ghcr.io/${{ github.repository }}/grpc-server-async:${{ env.fullSemVer }}
 
     - name: Update Kubernetes manifests for grpc-client
       run: |
-        sed -i "s|image: ghcr.io/${{ github.repository }}/grpc-client:.*|image: ghcr.io/${{ github.repository }}/grpc-client:${{ steps.gitversion.outputs.SemVer }}|g" grpc-client/kubernetes/*.yaml
+        sed -i "s|image: ghcr.io/${{ github.repository }}/grpc-client:.*|image: ghcr.io/${{ github.repository }}/grpc-client:${{ env.fullSemVer }}|g" grpc-client/kubernetes/*.yaml
 
     - name: Update Kubernetes manifests for grpc-server
       run: |
-        sed -i "s|image: ghcr.io/${{ github.repository }}/grpc-server:.*|image: ghcr.io/${{ github.repository }}/grpc-server:${{ steps.gitversion.outputs.SemVer }}|g" grpc-server/kubernetes/*.yaml
+        sed -i "s|image: ghcr.io/${{ github.repository }}/grpc-server:.*|image: ghcr.io/${{ github.repository }}/grpc-server:${{ env.fullSemVer }}|g" grpc-server/kubernetes/*.yaml
 
     - name: Update Kubernetes manifests for grpc-client-async
       run: |
-        sed -i "s|image: ghcr.io/${{ github.repository }}/grpc-client-async:.*|image: ghcr.io/${{ github.repository }}/grpc-client-async:${{ steps.gitversion.outputs.SemVer }}|g" grpc-client-async/kubernetes/*.yaml
+        sed -i "s|image: ghcr.io/${{ github.repository }}/grpc-client-async:.*|image: ghcr.io/${{ github.repository }}/grpc-client-async:${{ env.fullSemVer }}|g" grpc-client-async/kubernetes/*.yaml
 
     - name: Update Kubernetes manifests for grpc-server-async
       run: |
-        sed -i "s|image: ghcr.io/${{ github.repository }}/grpc-server-async:.*|image: ghcr.io/${{ github.repository }}/grpc-server-async:${{ steps.gitversion.outputs.SemVer }}|g" grpc-server-async/kubernetes/*.yaml
+        sed -i "s|image: ghcr.io/${{ github.repository }}/grpc-server-async:.*|image: ghcr.io/${{ github.repository }}/grpc-server-async:${{ env.fullSemVer }}|g" grpc-server-async/kubernetes/*.yaml
 
     - name: Configure Git
       run: |
@@ -72,5 +76,5 @@ jobs:
       run: |
         git add grpc-client/kubernetes/*.yaml grpc-server/kubernetes/*.yaml
         git add grpc-client-async/kubernetes/*.yaml grpc-server-async/kubernetes/*.yaml
-        git commit -m "Update image versions to ${{ steps.gitversion.outputs.SemVer }} [workflow update]"
+        git commit -m "Update image versions to ${{ env.fullSemVer }} [workflow update]"
         git push origin main
