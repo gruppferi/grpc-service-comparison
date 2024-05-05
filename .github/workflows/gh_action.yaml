@@ -6,6 +6,10 @@ on:
       - main
       - ci-fix
       - develop
+
+permissions:
+  contents: write
+
 jobs:
   build-push-update:
     runs-on: ubuntu-latest
