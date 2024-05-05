@@ -83,4 +83,4 @@ jobs:
         git add grpc-client/kubernetes/*.yaml grpc-server/kubernetes/*.yaml
         git add grpc-client-async/kubernetes/*.yaml grpc-server-async/kubernetes/*.yaml
         git commit -m "Update image versions to ${{ env.GitVersion_SemVer }} [workflow update]"
-        git push origin main
+        git push origin "${{ env.GITHUB_REF_NAME }}"
