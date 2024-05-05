@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: grpc-server
-          image: ghcr.io/grpc-service-comparison/grpc-server-async:1.0.0
+          image: ghcr.io/gruppferi/grpc-service-comparison/grpc-server-async:1.0.0
           ports:
             - containerPort: 50051
               name: grpc

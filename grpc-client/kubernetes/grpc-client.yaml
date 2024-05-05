@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: grpc-client-container
-          image: ghcr.io/grpc-service-comparison/grpc-client:1.0.0
+          image: ghcr.io/gruppferi/grpc-service-comparison/grpc-client:1.0.0
           ports:
             - containerPort: 5000
           env:
