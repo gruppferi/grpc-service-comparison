@@ -14,11 +14,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Use GitVersion
-      id: gitversion
-      uses: gittools/actions/gitversion/setup@v1.1.1
-      with:
-        versionSpec: 6.x
+    - name: GitTools
+      uses: GitTools/actions@v1.1.1
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
