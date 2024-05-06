@@ -1,4 +1,4 @@
-[![ci](https://github.com/gruppferi/grpc-service-comparison/actions/workflows/gh_action.yml/badge.svg)](https://github.com/gruppferi/grpc-service-comparison/actions/workflows/gh_action.yml)
+[![ci](https://github.com/gruppferi/grpc-service-comparison/actions/workflows/gh_action.yaml/badge.svg)](https://github.com/gruppferi/grpc-service-comparison/actions/workflows/gh_action.yaml)
 
 # grpc-service-comparison
 This weekend project began when my colleagues requested a service mesh in our stack due to Kubernetes service load balancing, which doesn't align well with the GRPC protocol.
